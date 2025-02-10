@@ -12,6 +12,7 @@
     --titleColor: #555555;
     --labelColor: #333333;
     --button: #674cc4;
+    --success: green;
 }
 
 
@@ -31,7 +32,8 @@
     align-items: center;
     gap: 20px;
     border: 1px solid var(--light-grey);
-    box-shadow: 0px 8px 8px 10px rgb(229, 227, 227);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px 5px rgb(229, 227, 227);
 }
 
 .img-container {
@@ -52,7 +54,7 @@
 }
 
 .form-container .form-header {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-transform: capitalize;
     color: var(--titleColor);
 }
@@ -117,7 +119,11 @@ form button {
     text-transform: capitalize;
 }
 
+/* form button {
+    box-shadow: 2px 2px 2px 2px var(--light-grey);
+} */
+
 form button:hover {
     color: var(--white-color);
-    background-color: var(--button);
+    background-color: var(--success);
 }

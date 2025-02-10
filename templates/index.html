@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://kit.fontawesome.com/606d99f9be.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="main">
         <div class="register">
             <div class="img-container">
-                <img src="artifacts/register-img.jpg" alt="">
+                <img src="/static/artifacts/register-img.jpg" alt="">
             </div>
             <div class="form-container">
                 <div class="form-header">
-                    <h3>Sign Up</h3>
+                    <h3>User Registration</h3>
                 </div>
                 <div class="form-page">
-                    <form action="">
+                    <form action="" id="registrationForm">
                         <div class="form-group">
                             <input type="text" name="username" id="username" required>
                             <i class="fa-solid fa-user"></i>
@@ -40,5 +40,6 @@
             </div>
         </div>
     </div>
+    <script src="/static/js/registration.js"></script>
 </body>
 </html>
