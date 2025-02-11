@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext
-from config import settings
+from app.config import settings
 import secrets
 from sqlalchemy.orm import Session
-from models import User
+from app.models import User
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

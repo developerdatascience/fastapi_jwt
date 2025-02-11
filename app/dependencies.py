@@ -1,9 +1,9 @@
 from fastapi import Depends, HTTPException, status
-from jose import jwt, JWTError # type: ignore
+from jose import jwt, JWTError
 from sqlalchemy.orm import Session
-from database import SessionLocal
-from config import settings
-from models import User
+from app.database import SessionLocal
+from app.config import settings
+from app.models import User
 
 def get_db():
     db: Session = SessionLocal()
