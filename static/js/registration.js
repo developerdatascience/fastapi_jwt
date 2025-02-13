@@ -2,8 +2,8 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
     e.preventDefault(); // Prevent default form submission
     
     const messageElement = document.getElementById('message');
-    messageElement.textContent = '';
-    messageElement.className = 'message';
+    // messageElement.textContent = '';
+    // messageElement.className = 'message';
 
     const formData = {
         username: document.getElementById('username').value,
@@ -23,27 +23,15 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
         });
 
         const data = await response.json();
+        messageElement.textContent = data.message
+        message.className = data.status
+        messageElement.style.display = 'block'
+        // Optional: Clear form or redirect
+        document.getElementById('registrationForm').reset();
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 3000);
         
-        if (response.ok) {
-            messageElement.textContent = data.message;
-            console.log(data.message)
-            messageElement.className = 'message success';
-            messageElement.style.backgroundColor= '#22bb33';
-            // Optional: Clear form or redirect
-            document.getElementById('registrationForm').reset();
-            setTimeout(() => {
-                messageElement.style.display = 'none';
-            }, 3000);
-        } else { 
-            messageElement.textContent = data.detail || 'Registration failed';
-            console.log(data.detail)
-            messageElement.className = 'message error';
-            messageElement.style.backgroundColor = '#bb2124';
-            setTimeout(() => {
-                messageElement.style.display = 'none';
-            }, 3000);
-            throw new Error(data.detail || 'Registration failed');
-        }
     } catch (error) {
         messageElement.textContent = error.message;
         messageElement.className = 'message error';

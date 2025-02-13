@@ -31,19 +31,17 @@ async def register(request: Request,
                    email: str = Form(...),
                    password: str = Form(...),
                    db: Session = Depends(get_db)):
-    try:
-        if db.query(User).filter(User.email == email).first():
-            raise HTTPException(status_code=400, detail="Email already registered")
-
-        hashed_pw = hash_password(password)
-        new_user = User(username=username, email=email, hashed_password=hashed_pw)
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-        return {"message": "User created successfully"}
-    except Exception as e:
-        db.rollback()
-        return HTTPException(status_code=500, detail=f"User not created. Error: {e}")
+    
+    existing_user = db.query(User).filter(User.email == email).first()
+    if existing_user:
+        return {"message": "Email already exists", "status": "error"}
+    
+    hashed_pw = hash_password(password)
+    new_user = User(username=username, email=email, hashed_password=hashed_pw)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "Registration successful", "status": "success"}
 
 @router.post("/login", response_model=Token)
 async def login(user: UserCreate, db: Session = Depends(get_db)):
