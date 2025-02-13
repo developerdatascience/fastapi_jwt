@@ -26,7 +26,6 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
         
         if (response.ok) {
             messageElement.textContent = data.message;
-            console.log(data.message)
             messageElement.className = 'message success';
             messageElement.style.backgroundColor= '#22bb33';
             // Optional: Clear form or redirect
@@ -34,9 +33,8 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
             setTimeout(() => {
                 messageElement.style.display = 'none';
             }, 3000);
-        } else { 
+        } else {
             messageElement.textContent = data.detail || 'Registration failed';
-            console.log(data.detail)
             messageElement.className = 'message error';
             messageElement.style.backgroundColor = '#bb2124';
             setTimeout(() => {
@@ -47,5 +45,9 @@ document.getElementById('registrationForm').addEventListener('submit', async (e)
     } catch (error) {
         messageElement.textContent = error.message;
         messageElement.className = 'message error';
+        messageElement.style.backgroundColor = '#bb2124';
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 3000);
     }
 });

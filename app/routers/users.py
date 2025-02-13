@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status, APIRouter, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from datetime import timedelta
@@ -11,16 +11,21 @@ from app.email_utils import send_reset_email
 from app.config import settings
 import logging
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(tags=["Users"])
 
 # Set up template rendering
 templates = Jinja2Templates(directory="templates")
 
-@router.get("/", response_class=HTMLResponse)
-async def root(request: Request):
+@router.get("/", response_class=HTMLResponse, status_code=201)
+async def root(request: Request, name='root'):
     return templates.TemplateResponse("root.html", {"request": request})
 
-@router.post("/register", response_class=HTMLResponse)
+
+@router.get("/register", response_class=HTMLResponse)
+async def create_users(request: Request):
+    return templates.TemplateResponse("registration.html", {"request": request})
+
+@router.post("/newaccount", response_class=JSONResponse, status_code=201)
 async def register(request: Request, 
                    username: str = Form(...),
                    email: str = Form(...),
@@ -35,13 +40,10 @@ async def register(request: Request,
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return templates.TemplateResponse("registration.html", {"request": request, "message": "User registered successfully"})
-    except HTTPException as e:
-        logging.error(f"HTTP error occurred: {e.detail}")
-        raise e
+        return {"message": "User created successfully"}
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {str(e)}")
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"message": "Internal Server Error"})
+        db.rollback()
+        return HTTPException(status_code=500, detail=f"User not created. Error: {e}")
 
 @router.post("/login", response_model=Token)
 async def login(user: UserCreate, db: Session = Depends(get_db)):
