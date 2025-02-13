@@ -27,14 +27,18 @@ body {
 
 .navlink a {
     text-decoration: none;
-    color: #1877f2;
+    background-color: #1877f2;
     font-weight: 600;
     transition: color 0.3s ease;
+    padding: 10px;
+    color: #fff;
+    border-radius: 10px;
 }
 
 .navlink a:hover {
-    color: #166fe5;
-    text-decoration: underline;
+    /* color: #b5bdc8; */
+    background-color: #166fe5;
+    text-decoration: none;
 }
 
 .main {

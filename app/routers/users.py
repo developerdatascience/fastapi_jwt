@@ -3,8 +3,8 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from datetime import timedelta
-from app.models import User
-from app.schemas import UserCreate, UserResponse, Token, ForgotPasswordRequest, ResetPasswordRequest
+from app.models.users import User
+from app.schemas.users import UserCreate, Token, ForgotPasswordRequest, ResetPasswordRequest
 from app.auth import hash_password, verify_password, create_access_token, set_reset_token
 from app.dependencies import get_db
 from app.email_utils import send_reset_email
@@ -37,7 +37,7 @@ async def register(request: Request,
         return {"message": "Email already exists", "status": "error"}
     
     hashed_pw = hash_password(password)
-    new_user = User(username=username, email=email, hashed_password=hashed_pw)
+    new_user = User(username=username, email=email, hashed_password=hashed_pw, is_active=True)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

@@ -3,7 +3,10 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.config import settings
-from app.models import User
+from app.models.users import User
+from app.models.device import HouseholdDevice
+from app.models.subscription import Subscription
+from app.models.email import Email
 
 def get_db():
     db: Session = SessionLocal()
